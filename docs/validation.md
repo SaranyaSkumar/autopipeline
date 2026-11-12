@@ -18,7 +18,7 @@
 - Successful steps: checkout, setup Node, `npm ci`, `npm run lint`, `npm run typecheck`, `npm run test` plus AutoPipeline tests, `npm run build`, and `npm audit --audit-level=high`.
 - Does not deploy FamilyOS. Existing Vercel integration and main branch are unchanged.
 - Integration currently uses a **vendored snapshot of the same AutoPipeline core** because the source repository is private and the package is not published. Converting this to a normal external dependency remains a separate, necessary release step.
-- Follow-up change on the PR additionally checks `autopipeline check` during CI to catch workflow/configuration drift; verify its newest run before merging.
+- Follow-up run ID `43213703436` **passed all steps**, including `autopipeline check` (workflow/configuration drift gate), lint, typecheck, application and generator unit tests, Next.js build, and high-severity npm dependency audit.
 
 ## What was not validated
 
