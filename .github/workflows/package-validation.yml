@@ -1,0 +1,30 @@
+name: npm package validation
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - run: npm test
+      - run: npm pack --dry-run
+      - name: Test tarball installation and CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm pack --pack-destination "$RUNNER_TEMP"
+          mkdir -p "$RUNNER_TEMP/consumer"
+          cd "$RUNNER_TEMP/consumer"
+          printf '{"name":"ci-fixture","version":"1.0.0","scripts":{"test":"node --version"}}\n' > package.json
+          npm install --no-audit --no-fund "$RUNNER_TEMP"/saranyaskumar-autopipeline-*.tgz
+          ./node_modules/.bin/autopipeline init
+          ./node_modules/.bin/autopipeline doctor
+          ./node_modules/.bin/autopipeline generate
+          ./node_modules/.bin/autopipeline check
+          grep -q "name: AutoPipeline CI" .github/workflows/autopipeline.yml
