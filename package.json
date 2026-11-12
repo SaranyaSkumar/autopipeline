@@ -1,7 +1,7 @@
 {
   "name": "@saranyaskumar/autopipeline",
-  "version": "0.1.0",
-  "description": "Configurable CI generator and drift checker",
+  "version": "0.1.0-beta.1",
+  "description": "Configurable GitHub Actions CI generator and workflow drift checker",
   "type": "module",
   "bin": {
     "autopipeline": "./bin/autopipeline.mjs"
@@ -10,10 +10,37 @@
     ".": "./src/index.mjs"
   },
   "scripts": {
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "prepack": "npm test"
   },
   "engines": {
     "node": ">=20"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SaranyaSkumar/autopipeline.git"
+  },
+  "homepage": "https://github.com/SaranyaSkumar/autopipeline#readme",
+  "bugs": {
+    "url": "https://github.com/SaranyaSkumar/autopipeline/issues"
+  },
+  "keywords": [
+    "ci",
+    "github-actions",
+    "cli",
+    "pipeline",
+    "devtools",
+    "automation"
+  ],
+  "files": [
+    "bin/",
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "tag": "beta"
+  }
 }
