@@ -30,7 +30,7 @@ export function render(c,d){
    const runtime=String(c.project.runtime||"22");if(!["20","22","24"].includes(runtime))throw Error("Unsupported Node runtime");
    lines.push("      - name: Setup Node","        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0","        with:","          node-version: '"+runtime+"'","          cache: "+manager);
    if(manager!=="npm")step("Enable corepack","corepack enable");
-   step("Install",manager==="npm"?"npm ci":manager==="pnpm"?"pnpm install --frozen-lockfile":"yarn install --immutable");
+   step("Install",cmds.install||(manager==="npm"?"npm ci":manager==="pnpm"?"pnpm install --frozen-lockfile":"yarn install --immutable"));
    for(const [key,label,script] of [["lint","Lint","lint"],["typecheck","Typecheck","typecheck"],["unit","Unit tests","test"],["build","Build","build"],["e2e","E2E tests","test:e2e"]]){
      if(!c.ci[key])continue;
      if(d&&!d.scripts?.[script]&&!cmds[key])throw Error("Missing script: "+script);
