@@ -14,4 +14,4 @@ test("supports Python",()=>{assert.match(render(suggest({language:"python",scrip
 test("supports Maven",()=>{assert.match(render(suggest({language:"java",scripts:{}})),/mvnw/);});
 
 test("supports explicit install commands",()=>{const d={language:"node",manager:"npm",scripts:{build:"next build"}};const c=suggest(d);c.ci.commands={install:"npm ci --legacy-peer-deps"};assert.match(render(c,d),/npm ci --legacy-peer-deps/);});
-test("rejects multiline install command overrides",()=>{const d={language:"node",manager:"npm",scripts:{build:"next build"}};const c=suggest(d);c.ci.commands={install:"npm ci\\nmalicious"};assert.throws(()=>render(c,d),/Invalid command/);});
+test("rejects multiline install command overrides",()=>{const d={language:"node",manager:"npm",scripts:{build:"next build"}};const c=suggest(d);c.ci.commands={install:"npm ci\nmalicious"};assert.throws(()=>render(c,d),/Invalid command/);});
