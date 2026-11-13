@@ -12,3 +12,6 @@ test("blocks deployments",()=>{const d={language:"node",manager:"npm",scripts:{t
 test("generated workflows are least privileged",()=>{const d={language:"node",manager:"npm",scripts:{test:"vitest"}};const out=render(suggest(d),d);assert.match(out,/contents: read/);assert.match(out,/checkout@[0-9a-f]{40}/);assert.doesNotMatch(out,/pull_request_target/);});
 test("supports Python",()=>{assert.match(render(suggest({language:"python",scripts:{}})),/pytest/);});
 test("supports Maven",()=>{assert.match(render(suggest({language:"java",scripts:{}})),/mvnw/);});
+
+test("supports explicit install commands",()=>{const d={language:"node",manager:"npm",scripts:{build:"next build"}};const c=suggest(d);c.ci.commands={install:"npm ci --legacy-peer-deps"};assert.match(render(c,d),/npm ci --legacy-peer-deps/);});
+test("rejects multiline install command overrides",()=>{const d={language:"node",manager:"npm",scripts:{build:"next build"}};const c=suggest(d);c.ci.commands={install:"npm ci\nmalicious"};assert.throws(()=>render(c,d),/Invalid command/);});
